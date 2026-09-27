@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIỆT HÀ CHINESE - Bài 3: Leisure</title>
+    <!-- Thư viện Hanzi Writer dùng cho phần viết chữ -->
+    <script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.5/dist/hanzi-writer.min.js"></script>
+    <style>
+        :root {
+            --primary: #4CAF50;
+            --primary-dark: #388E3C;
+            --secondary: #2196F3;
+            --bg-color: #f4f7f6;
+            --text-color: #333;
+            --card-bg: #fff;
+            --border-radius: 12px;
+            --shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding-bottom: 50px;
+        }
+
+        /* HEADER */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .logo span {
+            color: #FFEB3B;
+        }
+
+        .progress-container {
+            width: 100%;
+            background: rgba(255,255,255,0.3);
+            border-radius: 10px;
+            height: 10px;
+            margin-top: 15px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: #FFEB3B;
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        /* MENU / TABS */
+        .tabs {
+            display: flex;
+            overflow-x: auto;
+            background: white;
+            padding: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            white-space: nowrap;
+            scrollbar-width: none; /* Firefox */
+        }
+        .tabs::-webkit-scrollbar { display: none; } /* Chrome */
+
+        .tab {
+            padding: 10px 20px;
+            margin-right: 10px;
+            border-radius: 20px;
+            background: #eee;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+            user-select: none;
+        }
+
+        .tab.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* MAIN CONTENT */
+        .content-section {
+            display: none;
+            padding: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+            animation: fadeIn 0.4s;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2.section-title {
+            color: var(--primary-dark);
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--primary);
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+
+        /* TABLES */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .hanzi {
+            font-size: 22px;
+            font-family: 'KaiTi', 'SimSun', serif;
+            font-weight: bold;
+        }
+        
+        .pinyin {
+            color: #666;
+            font-style: italic;
+        }
+
+        /* TEXT & READING */
+        .reading-box {
+            background: white;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+            font-size: 20px;
+            line-height: 2.5;
+        }
+
+        ruby {
+            margin-right: 5px;
+        }
+
+        rt {
+            font-size: 14px;
+            color: var(--secondary);
+            transition: 0.3s;
+        }
+
+        .hide-pinyin rt {
+            opacity: 0;
+        }
+
+        /* BUTTONS */
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            color: white;
+            background: var(--secondary);
+            transition: 0.2s;
+            margin: 5px;
+        }
+
+        .btn:hover { background: #1976D2; }
+        .btn-green { background: var(--primary); }
+        .btn-green:hover { background: var(--primary-dark); }
+        .btn-icon { padding: 5px 10px; font-size: 16px; }
+
+        /* FLASHCARDS */
+        .flashcard-container {
+            perspective: 1000px;
+            width: 300px;
+            height: 200px;
+            margin: 20px auto;
+        }
+
+        .flashcard {
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .flashcard.is-flipped {
+            transform: rotateY(180deg);
+        }
+
+        .card-face {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 20px;
+            text-align: center;
+        }
+
+        .card-front {
+            font-size: 60px;
+            font-family: 'KaiTi', serif;
+        }
+
+        .card-back {
+            transform: rotateY(180deg);
+            background: #e3f2fd;
+        }
+        
+        .card-controls {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        /* MATCH GAME & MEMORY GAME */
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .game-card {
+            background: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            transition: 0.3s;
+            user-select: none;
+            border: 2px solid transparent;
+        }
+
+        .game-card:hover { transform: translateY(-5px); }
+        .game-card.selected { border-color: var(--secondary); background: #e3f2fd; }
+        .game-card.matched { background: #C8E6C9; color: transparent; cursor: default; pointer-events: none; }
+        .game-card.matched::after { content: '✔️'; color: var(--primary-dark); font-size: 24px; display: block;}
+        
+        /* MEMORY GAME SPECIFIC */
+        .memory-card {
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            background: #2196F3;
+            color: transparent;
+        }
+        .memory-card.flipped {
+            background: white;
+            color: var(--text-color);
+        }
+        .memory-card.matched {
+            background: #C8E6C9;
+            color: var(--primary-dark);
+        }
+
+        /* HANZI WRITER */
+        .writer-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .writer-box {
+            background: white;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+        .hz-canvas {
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            background: #fdfdfd;
+        }
+
+        /* QUIZ & LISTENING */
+        .quiz-card {
+            background: white;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 15px;
+        }
+        .options label {
+            display: block;
+            padding: 10px;
+            background: #f9f9f9;
+            margin: 5px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.2s;
+            border: 1px solid #ddd;
+        }
+        .options label:hover { background: #eee; }
+        .options input { margin-right: 10px; }
+        .feedback { margin-top: 10px; font-weight: bold; }
+        .correct { color: var(--primary); }
+        .incorrect { color: red; }
+
+        /* STATS */
+        .stat-box {
+            background: white;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .stat-number { font-size: 40px; color: var(--primary); font-weight: bold; }
+
+        @media(max-width: 768px) {
+            .tabs { padding: 10px 5px; }
+            .tab { padding: 8px 12px; font-size: 14px; }
+            .flashcard-container { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo"><span>VIỆT HÀ</span> CHINESE</div>
+        <h1>Bài 3: 休闲 (Leisure)</h1>
+        <p>Giáo trình: Teens Easy Steps to Chinese 2</p>
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+    </header>
+
+    <div class="tabs" id="tabMenu">
+        <div class="tab active" onclick="openTab('vocab', 1)">📚 Từ vựng</div>
+        <div class="tab" onclick="openTab('text', 2)">💬 Bài khóa</div>
+        <div class="tab" onclick="openTab('grammar', 3)">📖 Ngữ pháp</div>
+        <div class="tab" onclick="openTab('write', 4)">✍️ Viết chữ</div>
+        <div class="tab" onclick="openTab('flashcard', 5)">🃏 Flashcard</div>
+        <div class="tab" onclick="openTab('match', 6)">🔗 Nối từ</div>
+        <div class="tab" onclick="openTab('memory', 7)">🧠 Memory Game</div>
+        <div class="tab" onclick="openTab('listen', 8)">🎧 Luyện nghe</div>
+        <div class="tab" onclick="openTab('quiz', 9)">📝 Bài tập</div>
+        <div class="tab" onclick="openTab('stats', 10)">📊 Kết quả</div>
+    </div>
+
+    <!-- 1. TỪ VỰNG -->
+    <div id="vocab" class="content-section active">
+        <h2 class="section-title">📚 Từ vựng (New Words)</h2>
+        <p><i>Lưu ý: Bấm vào nút 🔊 để nghe phát âm (Giọng đọc của trình duyệt).</i></p>
+        <table id="vocabTable">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>汉字</th>
+                    <th>Pinyin</th>
+                    <th>Nghĩa Tiếng Việt</th>
+                    <th>Nghe</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Sinh tự động bằng JS -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 2. BÀI KHÓA -->
+    <div id="text" class="content-section">
+        <h2 class="section-title">💬 Bài khóa / Hội thoại</h2>
+        <div style="margin-bottom: 15px;">
+            <button class="btn btn-green" onclick="togglePinyin()">👁 Hiện/Ẩn Pinyin</button>
+            <button class="btn" onclick="playAudioText('text1')">🔊 Nghe Bài 1</button>
+            <button class="btn" onclick="playAudioText('text2')">🔊 Nghe Bài 2</button>
+        </div>
+        
+        <h3>Text 1</h3>
+        <div class="reading-box" id="text1_content">
+            <!-- Sinh bằng JS -->
+        </div>
+
+        <h3>Text 2 (Hội thoại)</h3>
+        <div class="reading-box" id="text2_content">
+             <!-- Sinh bằng JS -->
+        </div>
+    </div>
+
+    <!-- 3. NGỮ PHÁP -->
+    <div id="grammar" class="content-section">
+        <h2 class="section-title">📖 Ngữ pháp</h2>
+        <div id="grammarContainer">
+            <!-- Sinh bằng JS -->
+        </div>
+    </div>
+
+    <!-- 4. LUYỆN VIẾT -->
+    <div id="write" class="content-section">
+        <h2 class="section-title">✍️ Luyện viết chữ Hán</h2>
+        <p>Bấm nút "Xem nét" để xem hướng dẫn, bấm "Tự viết" để vẽ lên ô vuông.</p>
+        <div class="writer-grid" id="writerContainer">
+            <!-- Sinh bằng JS -->
+        </div>
+    </div>
+
+    <!-- 5. FLASHCARD -->
+    <div id="flashcard" class="content-section">
+        <h2 class="section-title">🃏 Flashcard</h2>
+        <p style="text-align: center;">Chạm vào thẻ để lật xem nghĩa.</p>
+        <div class="flashcard-container" onclick="flipCard()">
+            <div class="flashcard" id="fcElement">
+                <div class="card-face card-front" id="fcFront">漂亮</div>
+                <div class="card-face card-back">
+                    <h3 id="fcPinyin" style="color:var(--secondary)">piào liang</h3>
+                    <p id="fcMeaning" style="font-size: 20px; font-weight: bold; margin: 10px 0;">Đẹp</p>
+                    <p id="fcExample" style="font-size: 16px; color: #555;">小猫长得很漂亮。</p>
+                </div>
+            </div>
+        </div>
+        <div class="card-controls">
+            <button class="btn" onclick="prevCard()">← Từ trước</button>
+            <button class="btn btn-green" onclick="flipCard()">🔄 Lật thẻ</button>
+            <button class="btn" onclick="nextCard()">Từ tiếp theo →</button>
+        </div>
+        <p style="text-align: center; margin-top: 10px;" id="fcCounter">1 / 20</p>
+    </div>
+
+    <!-- 6. NỐI TỪ -->
+    <div id="match" class="content-section">
+        <h2 class="section-title">🔗 Nối từ với nghĩa</h2>
+        <p>Chọn một chữ Hán, sau đó chọn nghĩa tiếng Việt tương ứng.</p>
+        <div style="display: flex; justify-content: space-between; max-width: 600px; margin: 0 auto;">
+            <div class="game-grid" id="matchCol1" style="flex: 1; margin-right: 10px;"></div>
+            <div class="game-grid" id="matchCol2" style="flex: 1; margin-left: 10px;"></div>
+        </div>
+        <div style="text-align: center; margin-top: 20px;">
+            <button class="btn btn-green" onclick="initMatchGame()">🔄 Chơi lại</button>
+        </div>
+    </div>
+
+    <!-- 7. MEMORY GAME -->
+    <div id="memory" class="content-section">
+        <h2 class="section-title">🧠 Memory Game (Lật hình)</h2>
+        <p>Tìm các cặp chữ Hán và nghĩa tiếng Việt giống nhau.</p>
+        <p style="text-align: center; font-weight: bold;">Số lượt: <span id="memMoves">0</span> | Cặp đúng: <span id="memMatches">0</span></p>
+        <div class="game-grid" id="memoryGrid" style="grid-template-columns: repeat(4, 1fr);"></div>
+        <div style="text-align: center; margin-top: 20px;">
+            <button class="btn btn-green" onclick="initMemoryGame()">🔄 Chơi lại</button>
+        </div>
+    </div>
+
+    <!-- 8. LUYỆN NGHE -->
+    <div id="listen" class="content-section">
+        <h2 class="section-title">🎧 Luyện nghe</h2>
+        <p><i>Giọng đọc tự động của trình duyệt web. Hãy bấm nút nghe và chọn đáp án đúng.</i></p>
+        <div id="listenContainer"></div>
+    </div>
+
+    <!-- 9. BÀI TẬP TỔNG HỢP -->
+    <div id="quiz" class="content-section">
+        <h2 class="section-title">📝 Bài tập tổng hợp</h2>
+        <div id="quizContainer"></div>
+        <button class="btn btn-green" style="width: 100%; margin-top: 20px; padding: 15px; font-size: 18px;" onclick="checkAllQuizzes()">Chấm điểm Bài tập</button>
+    </div>
+
+    <!-- 10. THỐNG KÊ -->
+    <div id="stats" class="content-section">
+        <h2 class="section-title">📊 Kết quả học tập</h2>
+        <div class="stat-box">
+            <h3>Điểm Bài tập Tổng hợp</h3>
+            <div class="stat-number" id="statScore">0 / 0</div>
+            <p id="statMsg"></p>
+        </div>
+        <div class="stat-box">
+            <h3>Tiến độ bài học</h3>
+            <div class="progress-container" style="height: 20px; background: #ddd;">
+                <div class="progress-bar" id="finalProgress" style="background: var(--primary);"></div>
+            </div>
+            <p id="progressText" style="margin-top: 10px; font-weight: bold;">0%</p>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // DỮ LIỆU TỪ VỰNG (Trích từ PDF - Lesson 3)
+        // ==========================================
+        const vocabData = [
+            { hz: "漂亮", py: "piào liang", type: "Adj", vn: "Đẹp", ex: "小猫长得很漂亮。" },
+            { hz: "乖", py: "guāi", type: "Adj", vn: "Ngoan", ex: "小猫长得很漂亮，也很乖。" },
+            { hz: "又...又...", py: "yòu...yòu...", type: "Conj", vn: "Vừa... vừa...", ex: "我的狗长得又高又大。" },
+            { hz: "除", py: "chú", type: "Prep", vn: "Ngoài", ex: "" },
+            { hz: "除了...以外", py: "chú le...yǐ wài", type: "Prep", vn: "Ngoài... ra / Ngoại trừ", ex: "除了猫和狗以外，我还养了五条金鱼。" },
+            { hz: "条", py: "tiáo", type: "MW", vn: "Con / Cái (Lượng từ cho vật dài/cá)", ex: "五条金鱼" },
+            { hz: "金", py: "jīn", type: "N/Adj", vn: "Vàng", ex: "" },
+            { hz: "鱼", py: "yú", type: "N", vn: "Cá", ex: "" },
+            { hz: "金鱼", py: "jīn yú", type: "N", vn: "Cá vàng", ex: "金鱼在水里游来游去。" },
+            { hz: "里", py: "lǐ", type: "N", vn: "Trong / Bên trong", ex: "在水里" },
+            { hz: "干", py: "gàn", type: "V", vn: "Làm", ex: "你在干什么？" },
+            { hz: "正", py: "zhèng", type: "Adv", vn: "Đang", ex: "" },
+            { hz: "在", py: "zài", type: "Adv", vn: "Đang (biểu thị hành động tiếp diễn)", ex: "" },
+            { hz: "(正)在", py: "(zhèng) zài", type: "Adv", vn: "Đang làm gì đó", ex: "我正在看电视呢。" },
+            { hz: "视", py: "shì", type: "V", vn: "Nhìn / Thị", ex: "" },
+            { hz: "电视", py: "diàn shì", type: "N", vn: "Tivi", ex: "看电视" },
+            { hz: "节", py: "jié", type: "N", vn: "Tiết / Mục", ex: "" },
+            { hz: "目", py: "mù", type: "N", vn: "Mục", ex: "" },
+            { hz: "节目", py: "jié mù", type: "N", vn: "Chương trình", ex: "看体育节目" },
+            { hz: "育", py: "yù", type: "V", vn: "Dục / Giáo dục", ex: "" },
+            { hz: "体育", py: "tǐ yù", type: "N", vn: "Thể dục / Thể thao", ex: "体育节目" },
+            { hz: "吧", py: "ba", type: "Part", vn: "Đi / Nhé (Trợ từ gợi ý)", ex: "你来我家玩儿吧。" },
+            { hz: "可以", py: "kě yǐ", type: "Aux", vn: "Có thể", ex: "我们可以一起玩儿游戏。" },
+            { hz: "戏", py: "xì", type: "N", vn: "Trò / Kịch", ex: "" },
+            { hz: "游戏", py: "yóu xì", type: "N", vn: "Trò chơi", ex: "玩儿游戏" },
+            { hz: "影", py: "yǐng", type: "N", vn: "Ảnh / Hình", ex: "" },
+            { hz: "电影", py: "diàn yǐng", type: "N", vn: "Phim điện ảnh", ex: "去看电影" },
+            { hz: "时", py: "shí", type: "N", vn: "Thời / Giờ", ex: "" },
+            { hz: "候", py: "hòu", type: "N", vn: "Hậu / Lúc", ex: "" },
+            { hz: "时候", py: "shí hou", type: "N", vn: "Lúc / Khi", ex: "我什么时候去你家？" }
+        ];
+
+        const hanziToWrite = ["漂", "亮", "乖", "鱼", "干", "视", "影"];
+
+        // ==========================================
+        // DỮ LIỆU BÀI KHÓA
+        // ==========================================
+        // Dùng Ruby format để gắn pinyin
+        function makeRuby(text, pinyin) {
+            return `<ruby>${text}<rt>${pinyin}</rt></ruby>`;
+        }
+
+        const text1 = `
+            ${makeRuby('我','wǒ')} ${makeRuby('喜','xǐ')} ${makeRuby('欢','huan')} ${makeRuby('养','yǎng')} ${makeRuby('宠','chǒng')} ${makeRuby('物','wù')}。
+            ${makeRuby('我','wǒ')} ${makeRuby('养','yǎng')} ${makeRuby('了','le')} ${makeRuby('一','yì')} ${makeRuby('只','zhī')} ${makeRuby('小','xiǎo')} ${makeRuby('猫','māo')} ${makeRuby('和','hé')} ${makeRuby('一','yì')} ${makeRuby('只','zhī')} ${makeRuby('小','xiǎo')} ${makeRuby('狗','gǒu')}。
+            ${makeRuby('小','xiǎo')} ${makeRuby('猫','māo')} ${makeRuby('六','liù')} ${makeRuby('个','gè')} ${makeRuby('月','yuè')} ${makeRuby('大','dà')}。
+            ${makeRuby('它','tā')} ${makeRuby('长','zhǎng')} ${makeRuby('得','de')} ${makeRuby('很','hěn')} ${makeRuby('漂','piào')} ${makeRuby('亮','liang')}， ${makeRuby('也','yě')} ${makeRuby('很','hěn')} ${makeRuby('乖','guāi')}。
+            ${makeRuby('小','xiǎo')} ${makeRuby('狗','gǒu')} ${makeRuby('今','jīn')} ${makeRuby('年','nián')} ${makeRuby('两','liǎng')} ${makeRuby('岁','suì')} ${makeRuby('了','le')}。
+            ${makeRuby('它','tā')} ${makeRuby('长','zhǎng')} ${makeRuby('得','de')} ${makeRuby('又','yòu')} ${makeRuby('高','gāo')} ${makeRuby('又','yòu')} ${makeRuby('大','dà')}， ${makeRuby('很','hěn')} ${makeRuby('可','kě')} ${makeRuby('爱','ài')}。
+            ${makeRuby('除','chú')} ${makeRuby('了','le')} ${makeRuby('猫','māo')} ${makeRuby('和','hé')} ${makeRuby('狗','gǒu')} ${makeRuby('以','yǐ')} ${makeRuby('外','wài')}， ${makeRuby('我','wǒ')} ${makeRuby('还','hái')} ${makeRuby('养','yǎng')} ${makeRuby('了','le')} ${makeRuby('五','wǔ')} ${makeRuby('条','tiáo')} ${makeRuby('金','jīn')} ${makeRuby('鱼','yú')}。
+            ${makeRuby('它','tā')} ${makeRuby('们','men')} ${makeRuby('在','zài')} ${makeRuby('水','shuǐ')} ${makeRuby('里','lǐ')} ${makeRuby('游','yóu')} ${makeRuby('来','lái')} ${makeRuby('游','yóu')} ${makeRuby('去','qù')}， ${makeRuby('很','hěn')} ${makeRuby('好','hǎo')} ${makeRuby('玩','wánr')} ${makeRuby('儿','')}。
+        `;
+
+        const text2 = `
+            <b>A:</b> ${makeRuby('你','nǐ')} ${makeRuby('在','zài')} ${makeRuby('家','jiā')} ${makeRuby('里','lǐ')} ${makeRuby('吗','ma')}？ ${makeRuby('你','nǐ')} ${makeRuby('在','zài')} ${makeRuby('干','gàn')} ${makeRuby('什','shén')} ${makeRuby('么','me')}？<br>
+            <b>B:</b> ${makeRuby('我','wǒ')} ${makeRuby('在','zài')} ${makeRuby('家','jiā')} ${makeRuby('里','lǐ')}。 ${makeRuby('我','wǒ')} ${makeRuby('正','zhèng')} ${makeRuby('在','zài')} ${makeRuby('看','kàn')} ${makeRuby('电','diàn')} ${makeRuby('视','shì')} ${makeRuby('呢','ne')}。<br>
+            <b>A:</b> ${makeRuby('你','nǐ')} ${makeRuby('在','zài')} ${makeRuby('看','kàn')} ${makeRuby('什','shén')} ${makeRuby('么','me')} ${makeRuby('节','jié')} ${makeRuby('目','mù')}？<br>
+            <b>B:</b> ${makeRuby('我','wǒ')} ${makeRuby('在','zài')} ${makeRuby('看','kàn')} ${makeRuby('体','tǐ')} ${makeRuby('育','yù')} ${makeRuby('节','jié')} ${makeRuby('目','mù')}。<br>
+            <b>A:</b> ${makeRuby('你','nǐ')} ${makeRuby('来','lái')} ${makeRuby('我','wǒ')} ${makeRuby('家','jiā')} ${makeRuby('玩','wánr')} ${makeRuby('儿','')} ${makeRuby('吧','ba')}。 ${makeRuby('安','ān')} ${makeRuby('安','ān')} ${makeRuby('也','yě')} ${makeRuby('在','zài')} ${makeRuby('我','wǒ')} ${makeRuby('家','jiā')}。 ${makeRuby('我','wǒ')} ${makeRuby('们','men')} ${makeRuby('可','kě')} ${makeRuby('以','yǐ')} ${makeRuby('一','yì')} ${makeRuby('起','qǐ')} ${makeRuby('玩','wánr')} ${makeRuby('儿','')} ${makeRuby('游','yóu')} ${makeRuby('戏','xì')}， ${makeRuby('还','hái')} ${makeRuby('可','kě')} ${makeRuby('以','yǐ')} ${makeRuby('去','qù')} ${makeRuby('看','kàn')} ${makeRuby('电','diàn')} ${makeRuby('影','yǐng')}。<br>
+            <b>B:</b> ${makeRuby('好','hǎo')} ${makeRuby('的','de')}。 ${makeRuby('我','wǒ')} ${makeRuby('什','shén')} ${makeRuby('么','me')} ${makeRuby('时','shí')} ${makeRuby('候','hou')} ${makeRuby('去','qù')} ${makeRuby('你','nǐ')} ${makeRuby('家','jiā')}？<br>
+            <b>A:</b> ${makeRuby('你','nǐ')} ${makeRuby('两','liǎng')} ${makeRuby('点','diǎn')} ${makeRuby('来','lái')} ${makeRuby('我','wǒ')} ${makeRuby('家','jiā')}， ${makeRuby('好','hǎo')} ${makeRuby('吗','ma')}？<br>
+            <b>B:</b> ${makeRuby('好','hǎo')} ${makeRuby('的','de')}。 ${makeRuby('一','yí')} ${makeRuby('会','huì')} ${makeRuby('儿','r')} ${makeRuby('见','jiàn')}！
+        `;
+
+        // ==========================================
+        // DỮ LIỆU NGỮ PHÁP
+        // ==========================================
+        const grammarData = [
+            {
+                title: "1. Cấu trúc 又...又... (Vừa ... Vừa ...)",
+                formula: "Chủ ngữ + 又 + Tính từ 1 + 又 + Tính từ 2",
+                usage: "Dùng để diễn tả hai đặc điểm, tính chất cùng tồn tại trên một sự vật, sự việc.",
+                example: "我的狗长得又高又大。 (Con chó của tôi lớn lên vừa cao vừa to.)"
+            },
+            {
+                title: "2. Cấu trúc 除了...以外，还... (Ngoài ... ra, còn ...)",
+                formula: "除了 + [Danh từ/Đại từ] + (以外)， Chủ ngữ + 还 + Động từ",
+                usage: "Dùng để biểu đạt ý nghĩa ngoài đối tượng được nhắc đến thì vẫn còn đối tượng khác.",
+                example: "除了猫和狗以外，我还养了五条金鱼。 (Ngoài mèo và chó ra, tôi còn nuôi 5 con cá vàng.)"
+            },
+            {
+                title: "3. Cấu trúc chỉ hành động đang tiếp diễn: (正)在...呢",
+                formula: "Chủ ngữ + (正)在 + Động từ + (Tân ngữ) + 呢",
+                usage: "Dùng để diễn tả một hành động đang xảy ra tại một thời điểm nào đó.",
+                example: "我正在看电视呢。 (Tôi đang xem tivi.)"
+            },
+            {
+                title: "4. Trợ từ 吧 (Nhé / Đi / Thôi)",
+                formula: "Câu đề nghị / Mệnh lệnh + 吧",
+                usage: "Đứng ở cuối câu dùng để đưa ra lời đề nghị, rủ rê, hoặc đồng ý một cách nhẹ nhàng.",
+                example: "你来我家玩儿吧。 (Bạn đến nhà tôi chơi nhé.)"
+            }
+        ];
+
+        // ==========================================
+        // BIẾN TOÀN CỤC & INIT
+        // ==========================================
+        let currentFcIndex = 0;
+        let scoreQuiz = 0;
+        let totalQuiz = 0;
+        let visitedTabs = new Set();
+        const TOTAL_TABS = 10;
+
+        window.onload = () => {
+            renderVocab();
+            document.getElementById('text1_content').innerHTML = text1;
+            document.getElementById('text2_content').innerHTML = text2;
+            renderGrammar();
+            renderWriters();
+            updateFlashcard();
+            initMatchGame();
+            initMemoryGame();
+            renderListening();
+            renderQuiz();
+            
+            // Log first tab
+            visitedTabs.add(1);
+            updateProgress();
+        };
+
+        function openTab(tabId, tabNum) {
+            document.querySelectorAll('.content-section').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+            
+            document.getElementById(tabId).classList.add('active');
+            event.currentTarget.classList.add('active');
+
+            visitedTabs.add(tabNum);
+            updateProgress();
+        }
+
+        function updateProgress() {
+            let percent = (visitedTabs.size / TOTAL_TABS) * 100;
+            document.getElementById('progressBar').style.width = percent + '%';
+            document.getElementById('finalProgress').style.width = percent + '%';
+            document.getElementById('progressText').innerText = Math.round(percent) + '%';
+        }
+
+        // ==========================================
+        // TEXT TO SPEECH
+        // ==========================================
+        function speak(text) {
+            if ('speechSynthesis' in window) {
+                let msg = new SpeechSynthesisUtterance();
+                msg.text = text;
+                msg.lang = 'zh-CN';
+                window.speechSynthesis.cancel(); // Stop prev
+                window.speechSynthesis.speak(msg);
+            } else {
+                alert("Trình duyệt của bạn không hỗ trợ phát âm.");
+            }
+        }
+
+        function playAudioText(id) {
+            let rawText = id === 'text1' ? 
+                "我喜欢养宠物。我养了一只小猫和一只小狗。小猫六个月大。它长得很漂亮，也很乖。小狗今年两岁了。它长得又高又大，很可爱。除了猫和狗以外，我还养了五条金鱼。它们在水里游来游去，很好玩儿。" : 
+                "你在家里吗？你在干什么？我在家里。我正在看电视呢。你在看什么节目？我在看体育节目。你来我家玩儿吧。安安也在我家。我们可以一起玩儿游戏，还可以去看电影。好的。我什么时候去你家？你两点来我家，好吗？好的。一会儿见！";
+            speak(rawText);
+        }
+
+        function togglePinyin() {
+            document.getElementById('text1_content').classList.toggle('hide-pinyin');
+            document.getElementById('text2_content').classList.toggle('hide-pinyin');
+        }
+
+        // ==========================================
+        // RENDER TỪ VỰNG
+        // ==========================================
+        function renderVocab() {
+            const tbody = document.querySelector('#vocabTable tbody');
+            vocabData.forEach((word, index) => {
+                let tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td class="hanzi">${word.hz}</td>
+                    <td class="pinyin">${word.py}</td>
+                    <td><b>${word.vn}</b> <i>(${word.type})</i><br><small style="color:#666">${word.ex}</small></td>
+                    <td><button class="btn btn-icon" onclick="speak('${word.hz}')">🔊</button></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // ==========================================
+        // RENDER NGỮ PHÁP
+        // ==========================================
+        function renderGrammar() {
+            const container = document.getElementById('grammarContainer');
+            grammarData.forEach(g => {
+                let div = document.createElement('div');
+                div.className = 'quiz-card';
+                div.innerHTML = `
+                    <h3 style="color:var(--primary);">${g.title}</h3>
+                    <p><b>Công thức:</b> <span style="color:#D32F2F; font-family:monospace; font-size:16px;">${g.formula}</span></p>
+                    <p><b>Cách dùng:</b> ${g.usage}</p>
+                    <p><b>Ví dụ:</b> <span class="hanzi">${g.example.split('(')[0]}</span> <i>(${g.example.split('(')[1]||''}</p>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        // ==========================================
+        // RENDER VIẾT CHỮ (HANZI WRITER)
+        // ==========================================
+        function renderWriters() {
+            const container = document.getElementById('writerContainer');
+            hanziToWrite.forEach((char, i) => {
+                let box = document.createElement('div');
+                box.className = 'writer-box';
+                box.innerHTML = `
+                    <div class="hanzi" style="margin-bottom:10px;">${char}</div>
+                    <div id="hz-${i}" class="hz-canvas" style="width: 150px; height: 150px;"></div>
+                    <div style="margin-top:10px;">
+                        <button class="btn" style="padding: 5px 10px; font-size:12px;" onclick="animWriter(${i}, '${char}')">Xem nét</button>
+                        <button class="btn btn-green" style="padding: 5px 10px; font-size:12px;" onclick="quizWriter(${i}, '${char}')">Tự viết</button>
+                    </div>
+                `;
+                container.appendChild(box);
+                
+                // Init Writer
+                setTimeout(() => {
+                    window['writer_' + i] = HanziWriter.create('hz-' + i, char, {
+                        width: 150, height: 150, padding: 5,
+                        strokeAnimationSpeed: 1, delayBetweenStrokes: 100
+                    });
+                }, 500);
+            });
+        }
+
+        function animWriter(index, char) {
+            window['writer_' + index].animateCharacter();
+        }
+        function quizWriter(index, char) {
+            window['writer_' + index].quiz();
+        }
+
+        // ==========================================
+        // FLASHCARD
+        // ==========================================
+        function updateFlashcard() {
+            document.getElementById('fcFront').innerText = vocabData[currentFcIndex].hz;
+            document.getElementById('fcPinyin').innerText = vocabData[currentFcIndex].py;
+            document.getElementById('fcMeaning').innerText = vocabData[currentFcIndex].vn;
+            document.getElementById('fcExample').innerText = vocabData[currentFcIndex].ex;
+            document.getElementById('fcCounter').innerText = `${currentFcIndex + 1} / ${vocabData.length}`;
+            document.getElementById('fcElement').classList.remove('is-flipped');
+        }
+
+        function flipCard() {
+            document.getElementById('fcElement').classList.toggle('is-flipped');
+            if(document.getElementById('fcElement').classList.contains('is-flipped')) {
+                speak(vocabData[currentFcIndex].hz);
+            }
+        }
+
+        function nextCard() {
+            currentFcIndex = (currentFcIndex + 1) % vocabData.length;
+            updateFlashcard();
+        }
+
+        function prevCard() {
+            currentFcIndex = (currentFcIndex - 1 + vocabData.length) % vocabData.length;
+            updateFlashcard();
+        }
+
+        // ==========================================
+        // TRÒ CHƠI NỐI TỪ
+        // ==========================================
+        let matchSelected = { hz: null, vn: null };
+        function initMatchGame() {
+            let selectedVocab = [...vocabData].sort(() => 0.5 - Math.random()).slice(0, 6);
+            let hzList = [...selectedVocab].sort(() => 0.5 - Math.random());
+            let vnList = [...selectedVocab].sort(() => 0.5 - Math.random());
+
+            let col1 = document.getElementById('matchCol1');
+            let col2 = document.getElementById('matchCol2');
+            col1.innerHTML = ''; col2.innerHTML = '';
+            matchSelected = { hz: null, vn: null };
+
+            hzList.forEach(v => {
+                let div = document.createElement('div');
+                div.className = 'game-card hanzi';
+                div.innerText = v.hz;
+                div.dataset.val = v.hz;
+                div.onclick = () => handleMatchClick('hz', div, v.hz);
+                col1.appendChild(div);
+            });
+
+            vnList.forEach(v => {
+                let div = document.createElement('div');
+                div.className = 'game-card';
+                div.innerText = v.vn;
+                div.dataset.val = v.hz; // Lưu Hán tự để so sánh
+                div.onclick = () => handleMatchClick('vn', div, v.hz);
+                col2.appendChild(div);
+            });
+        }
+
+        function handleMatchClick(type, element, val) {
+            if(element.classList.contains('matched')) return;
+
+            // Bỏ select cũ cùng cột
+            let parent = element.parentNode;
+            parent.querySelectorAll('.game-card').forEach(el => el.classList.remove('selected'));
+            element.classList.add('selected');
+
+            matchSelected[type] = { el: element, val: val };
+
+            if(matchSelected.hz && matchSelected.vn) {
+                if(matchSelected.hz.val === matchSelected.vn.val) {
+                    // Đúng
+                    matchSelected.hz.el.classList.add('matched');
+                    matchSelected.vn.el.classList.add('matched');
+                    matchSelected.hz.el.classList.remove('selected');
+                    matchSelected.vn.el.classList.remove('selected');
+                    speak(matchSelected.hz.val);
+                } else {
+                    // Sai
+                    let el1 = matchSelected.hz.el;
+                    let el2 = matchSelected.vn.el;
+                    setTimeout(() => {
+                        el1.classList.remove('selected');
+                        el2.classList.remove('selected');
+                    }, 500);
+                }
+                matchSelected = { hz: null, vn: null };
+            }
+        }
+
+        // ==========================================
+        // MEMORY GAME
+        // ==========================================
+        let memCards = [];
+        let memFlipped = [];
+        let memMatches = 0;
+        let memMoves = 0;
+
+        function initMemoryGame() {
+            let selected = [...vocabData].sort(() => 0.5 - Math.random()).slice(0, 6);
+            let deck = [];
+            selected.forEach((v, i) => {
+                deck.push({ id: i, text: v.hz, isHz: true });
+                deck.push({ id: i, text: v.vn, isHz: false });
+            });
+            deck.sort(() => 0.5 - Math.random());
+            
+            let grid = document.getElementById('memoryGrid');
+            grid.innerHTML = '';
+            memFlipped = [];
+            memMatches = 0;
+            memMoves = 0;
+            document.getElementById('memMoves').innerText = memMoves;
+            document.getElementById('memMatches').innerText = memMatches;
+
+            deck.forEach((card, index) => {
+                let div = document.createElement('div');
+                div.className = 'game-card memory-card';
+                div.dataset.id = card.id;
+                div.dataset.text = card.text;
+                div.innerText = "?";
+                if(card.isHz) div.classList.add('hanzi');
+                
+                div.onclick = () => handleMemoryClick(div, card);
+                grid.appendChild(div);
+            });
+        }
+
+        function handleMemoryClick(el, card) {
+            if(memFlipped.length >= 2 || el.classList.contains('flipped') || el.classList.contains('matched')) return;
+
+            el.classList.add('flipped');
+            el.innerText = card.text;
+            if(card.isHz) speak(card.text);
+            memFlipped.push({ el, card });
+
+            if(memFlipped.length === 2) {
+                memMoves++;
+                document.getElementById('memMoves').innerText = memMoves;
+                
+                if(memFlipped[0].card.id === memFlipped[1].card.id) {
+                    // Match
+                    memFlipped[0].el.classList.add('matched');
+                    memFlipped[1].el.classList.add('matched');
+                    memMatches++;
+                    document.getElementById('memMatches').innerText = memMatches;
+                    memFlipped = [];
+                } else {
+                    // No match
+                    setTimeout(() => {
+                        memFlipped[0].el.classList.remove('flipped');
+                        memFlipped[0].el.innerText = "?";
+                        memFlipped[1].el.classList.remove('flipped');
+                        memFlipped[1].el.innerText = "?";
+                        memFlipped = [];
+                    }, 1000);
+                }
+            }
+        }
+
+        // ==========================================
+        // LUYỆN NGHE & BÀI TẬP TỔNG HỢP
+        // ==========================================
+        const listeningQuizzes = [
+            { audio: "小猫长得很漂亮，也很乖。", q: "Con mèo trông như thế nào?", opts: ["Rất ngoan, không đẹp", "Rất đẹp và ngoan", "Cao và to", "Không dễ thương"], ans: 1 },
+            { audio: "除了猫和狗以外，我还养了五条金鱼。", q: "Ngoài chó và mèo, người nói còn nuôi gì?", opts: ["5 con cá vàng", "1 con chim", "3 con cá", "Không nuôi gì thêm"], ans: 0 },
+            { audio: "我正在看电视呢。", q: "Người nói đang làm gì?", opts: ["Nghe nhạc", "Đọc sách", "Xem tivi", "Chơi game"], ans: 2 }
+        ];
+
+        const normalQuizzes = [
+            { q: "Chọn từ điền vào chỗ trống: 我的狗长得 ____ 高 ____ 大。", opts: ["在 / 在", "又 / 又", "很 / 很", "也 / 也"], ans: 1 },
+            { q: "Nghĩa của từ 电视 là gì?", opts: ["Điện thoại", "Trò chơi", "Tivi", "Phim ảnh"], ans: 2 },
+            { q: "Hoàn thành câu: 我们 _____ 一起玩儿游戏。", opts: ["可以", "干", "节目", "条"], ans: 0 },
+            { q: "Câu nào sau đây đúng ngữ pháp?", opts: ["我正在电视看呢。", "看正在我电视呢。", "我电视正在看呢。", "我正在看电视呢。"], ans: 3 },
+            { q: "Dịch sang tiếng Trung: Bạn đến nhà tôi chơi nhé.", opts: ["你去我家玩儿吧。", "你来我家玩儿吧。", "我在我家玩儿吧。", "你在我家玩儿吧。"], ans: 1 }
+        ];
+
+        function renderListening() {
+            const container = document.getElementById('listenContainer');
+            listeningQuizzes.forEach((q, i) => {
+                let div = document.createElement('div');
+                div.className = 'quiz-card';
+                div.innerHTML = `
+                    <p><b>Câu ${i+1}:</b> ${q.q}</p>
+                    <button class="btn" style="margin-bottom:10px;" onclick="speak('${q.audio}')">🔊 Nghe</button>
+                    <div class="options" id="optL_${i}">
+                        ${q.opts.map((opt, j) => `<label><input type="radio" name="listen${i}" value="${j}"> ${opt}</label>`).join('')}
+                    </div>
+                    <div class="feedback" id="fbL_${i}"></div>
+                `;
+                container.appendChild(div);
+                totalQuiz++;
+            });
+        }
+
+        function renderQuiz() {
+            const container = document.getElementById('quizContainer');
+            normalQuizzes.forEach((q, i) => {
+                let div = document.createElement('div');
+                div.className = 'quiz-card';
+                div.innerHTML = `
+                    <p><b>Câu ${i+1}:</b> ${q.q}</p>
+                    <div class="options" id="optN_${i}">
+                        ${q.opts.map((opt, j) => `<label><input type="radio" name="normal${i}" value="${j}"> ${opt}</label>`).join('')}
+                    </div>
+                    <div class="feedback" id="fbN_${i}"></div>
+                `;
+                container.appendChild(div);
+                totalQuiz++;
+            });
+        }
+
+        function checkAllQuizzes() {
+            scoreQuiz = 0;
+            let answered = 0;
+
+            // Check Listening
+            listeningQuizzes.forEach((q, i) => {
+                let selected = document.querySelector(`input[name="listen${i}"]:checked`);
+                let fb = document.getElementById(`fbL_${i}`);
+                if(selected) {
+                    answered++;
+                    if(parseInt(selected.value) === q.ans) {
+                        fb.innerHTML = "<span class='correct'>✔️ Chính xác!</span>";
+                        scoreQuiz++;
+                    } else {
+                        fb.innerHTML = `<span class='incorrect'>❌ Sai rồi. Đáp án đúng là: ${q.opts[q.ans]}</span>`;
+                    }
+                } else {
+                    fb.innerHTML = "<span style='color:orange;'>⚠️ Bạn chưa làm câu này.</span>";
+                }
+            });
+
+            // Check Normal
+            normalQuizzes.forEach((q, i) => {
+                let selected = document.querySelector(`input[name="normal${i}"]:checked`);
+                let fb = document.getElementById(`fbN_${i}`);
+                if(selected) {
+                    answered++;
+                    if(parseInt(selected.value) === q.ans) {
+                        fb.innerHTML = "<span class='correct'>✔️ Chính xác!</span>";
+                        scoreQuiz++;
+                    } else {
+                        fb.innerHTML = `<span class='incorrect'>❌ Sai rồi. Đáp án đúng là: ${q.opts[q.ans]}</span>`;
+                    }
+                } else {
+                    fb.innerHTML = "<span style='color:orange;'>⚠️ Bạn chưa làm câu này.</span>";
+                }
+            });
+
+            // Update Stats Tab
+            document.getElementById('statScore').innerText = `${scoreQuiz} / ${totalQuiz}`;
+            let msg = scoreQuiz === totalQuiz ? "🎉 Xuất sắc! Bạn đã nắm vững bài học!" : "💪 Cố lên, hãy ôn tập thêm từ vựng và ngữ pháp nhé!";
+            document.getElementById('statMsg').innerText = msg;
+            
+            alert(`Bạn đã đúng ${scoreQuiz}/${totalQuiz} câu. Hãy vào mục 'Kết quả' để xem chi tiết.`);
+            openTab('stats', 10);
+        }
+
+    </script>
+</body>
+</html>
